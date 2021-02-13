@@ -1,0 +1,96 @@
+{%extends "bootstrap/base.html" %}
+
+{% block content %}
+
+
+<div class="col-md-8" style="background-color:darkseagreen">
+    <br/> <br/>
+    <h1 class="display-3">AutoML and EDA</h1>
+    <p>Simplify the exploratory data analysis of your data set and use the AutoML to find the best classifier to suit
+        your use-case</p>
+    <p><a class="btn btn-primary" href="{{ url_for('index')}}" type="button"> Try a new dataset</a></p>
+    <br/><br/>
+</div>
+
+<div class="container">
+    <!-- Details Page  -->
+    <div class="row">
+        <div class="col-md-4" style="background-color:lightseagreen">
+            <h2>Details of Dataset</h2>
+
+            <div class="alert alert-info" role="alert">
+                <p><span style="color:red">Filename</span>: {{ filename }}</p>
+            </div>
+
+            <div class="alert alert-danger" role="alert">
+                <p><span style="color:red">Uploaded at</span>: {{ date }} </p>
+            </div>
+            <br/>
+
+            <h2>Exploratory Data Analysis</h2>
+
+            <!--<div class="alert alert-info" role="alert"><p><span style="color:red">Number of entries</span>: {{ df_size }}</p></div>-->
+            <div class="alert alert-danger" role="alert"><p><span style="color:red">(Rows, Columns)</span>: {{ df_shape
+                }}</p></div>
+
+            <div class="alert alert-info" role="alert">
+                <p><span style="color:red">Features/attributes</span>:
+                    {% for i in df_feature_names %}
+                <li>{{ i}}</li>
+                {% endfor %}
+                </p>
+            </div>
+
+            <div class="alert alert-danger" role="alert">
+                <p><span style="color:red">Target</span>: {{ df_target_name }}</p>
+            </div>
+            <br/>
+
+            <h2>Model Score</h2>
+
+            <a class="list-group-item" href="#">
+                <span style="color:red">Algorithm | Mean Accuracy | Standard Deviation</span> </a>
+            {% for mlaccuracy in model_results %}
+            <a class="list-group-item" href="#">{{ mlaccuracy }}</a>
+            {% endfor %}
+            <br/>
+        </div>
+
+        <!-- Viewing Dataset As a Table-->
+        <div class="col-md-5">
+            <h2>First 20 entries from the dataset</h2>
+            <p>{{ fullfile }} </p>
+            <button class="btn btn-primary" onclick="displayDataset()">View Dataset</button>
+            <br/>
+            <br/>
+            <div id="myDIV">
+                {{ dfplot.to_html(classes="table table-striped table-hover",na_rep="-") | safe}}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+<!-- Main External 3-Party JS Is Here -->
+
+{% block scripts %}
+
+{{ super() }}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+
+<!-- Function for Displaying Table -->
+<script>
+    function displayDataset() {
+        var x = document.getElementById("myDIV");
+        if (x.style.display === "none") {
+            x.style.display = "block";
+        } else {
+            x.style.display = "none";
+        }
+    }
+</script>
+
+
+{% endblock%}
+
+

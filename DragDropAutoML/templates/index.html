@@ -1,0 +1,106 @@
+{%extends "bootstrap/base.html" %}
+
+{% block content %}
+
+<style type="text/css">
+    body {
+        font: 15px/1.5 Arial, Helvetica, sans-serif;
+    }
+
+    .spinner-1:before {
+        content: "";
+        box-sizing: border-box;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        height: 60px;
+        width: 60px;
+        margin-top: -30px;
+        margin-left: -30px;
+        border-radius: 50%;
+        border: 6px solid transparent;
+        border-top-color: #0091EA;
+        animation: spinner 0.7s linear infinite;
+    }
+
+    @keyframes spinner {
+        to {
+            transform: rotate(360deg);
+        }
+    }
+
+    li {
+        background-color: #BDBDBD;
+    }
+
+    li:nth-child(odd) {
+        background-color: #0091EA;
+    }
+</style>
+
+{% block styles %}
+{{super()}}
+<link href="{{url_for('.static', filename='css/styles.css')}}" rel="stylesheet">
+{% endblock %}
+
+<!-- Main jumbotron for a primary marketing message or call to action -->
+<div class="container">
+    <div class="col-md-8" style="background-color:darkseagreen">
+        <br/> <br/>
+        <h1 class="display-3">AutoML and EDA</h1>
+        <p>Simplify the exploratory data analysis of your data set and use the AutoML to find the best classifier to suit your use-case</p>
+        <!--<p><a class="btn btn-primary" href="{{ url_for('index')}}" type="button"> Refresh</a></p>-->
+        <br/><br/>
+    </div>
+
+
+    <div class="container">
+        <div class="main">
+            <div class="row">
+                <div class="col-md-8" style="background-color:cadetblue">
+                    <h2 style="color:#fff">Upload your dataset here</h2>
+                    <p style="color:#fff">** Only numerical data in CSV format supported right now</p>
+                    <form action="{{ url_for('dataupload') }}" class="form-group" enctype=multipart/form-data
+                          method=POST>
+                        <div class="form-group">
+                            <input name="csv_data" type="file">
+                            <br/>
+                        </div>
+                        <input class="btn btn-primary mb-2" onclick="myAnalyser()" type="submit">
+                        <input class="btn btn-danger mb-2" type="reset" value="Reset">
+                    </form>
+                    <br/>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
+
+<!-- Main External 3-Party JS Is Here -->
+
+{% block scripts %}
+
+{{ super() }}
+<!-- Function to Show Spinning  -->
+<script>
+    function myAnalyser() {
+        document.querySelector('.main div').style.display = 'none';
+        //Hide the main division
+        document.querySelector('.main').classList.add('spinner-1');
+        // Server request
+        setTimeout(() => {
+            document.querySelector('.main').classList.remove('spinner-1');
+            //Remove the animation
+            document.querySelector('.main div').style.display = 'block';
+            //Show the main division
+        }, 5000);//Number of seconds to last
+    }
+</script>
+
+
+{% endblock%}
+
+
