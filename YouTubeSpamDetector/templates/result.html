@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link href="{{ url_for('static', filename='css/styles.css') }}" rel="stylesheet" type="text/css">
+</head>
+<body>
+
+<header>
+    <div class="container">
+        <h2>A machine learning application to classify a YouTube comment as spam or not spam</h2>
+    </div>
+</header>
+
+<div class="ml-container">
+    <form action="{{ url_for('predict')}}" method="POST">
+        <p>Enter Your Comment Here</p>
+        <textarea cols="100" name="comment" rows="5"></textarea>
+        <br/>
+        <input class="btn-info" type="submit" value="Is it a spam?">
+    </form>
+</div>
+
+<p style="color:blue;font-size:20;text-align: left;"><b>Result</b></p>
+
+<div class="results">
+    {% if prediction == 1%}
+    <h2 style="color:orangered;">Spam</h2>
+    {% elif prediction == 0%}
+    <h2 style="color:lightseagreen;">Not Spam</h2>
+    {% endif %}
+</div>
+
+</body>
+</html>
