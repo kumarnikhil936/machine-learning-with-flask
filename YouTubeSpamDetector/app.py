@@ -22,7 +22,6 @@ def train_model():
             df_temp = pd.read_csv(f'data/{filename}')
             df = df.append(df_temp)
         df = df[['CONTENT', 'CLASS']]
-        print(df.shape)
 
         # define features and labels
         df_x = df['CONTENT']
@@ -48,13 +47,13 @@ def train_model():
 
 @app.route('/')
 def home():
-    # return 'Hello World'
     return render_template('home.html')
 
 
 @app.route('/predict', methods=['POST'])
 def predict():
     if request.method == 'POST':
+        # train the model if a trained model is already not present
         train_model()
 
         # load model and count_vectorizer from the pickled files
@@ -73,5 +72,4 @@ def predict():
 
 
 if __name__ == '__main__':
-    train_model()
     app.run(debug=True)
