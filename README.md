@@ -1,0 +1,1 @@
+Some sample machine learning projects created to demonstrate the usage of Flask application.  
